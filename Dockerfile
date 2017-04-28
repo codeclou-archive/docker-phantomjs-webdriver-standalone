@@ -19,7 +19,9 @@ RUN apt-get update && \
     addgroup --gid 10777 phantomjs && \
     adduser --uid 10777 --gid 10777 --no-create-home --disabled-password --disabled-login -gecos "" phantomjs && \
     mkdir /opt/phantomwork && \
+    mkdir /work && \
     chown phantomjs:phantomjs /opt/phantomwork && \
+    chown phantomjs:phantomjs /work && \
     rm -rf /var/lib/apt/lists/* && \
     chmod u+rx,g+rx,o+rx,a-w /opt/docker-entrypoint.sh
 
@@ -29,6 +31,7 @@ RUN apt-get update && \
 USER phantomjs
 ENV PATH $PATH:/opt/phantomjs-${PHANTOMJS_VERSION}-linux-x86_64/bin
 EXPOSE 4444
+VOLUME /work
 WORKDIR /opt/phantomwork
 ENTRYPOINT ["/opt/docker-entrypoint.sh"]
 CMD ["phantomjs", "--webdriver", "4444"]
